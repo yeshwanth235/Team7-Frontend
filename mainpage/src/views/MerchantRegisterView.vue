@@ -2,7 +2,7 @@
   <div class="registerView">
     <div class="registerViewChild">
       <div class="registerLeft">
-        <h1>Register</h1>
+        <h1>Merchant Register</h1>
         <p>
           Welcome <br />
           to <br />
@@ -29,10 +29,10 @@
 </template>
 
 <script>
-import {mapActions,  mapGetters} from "vuex"
+// import {mapActions,  mapGetters} from "vuex"
 
 export default {
-  name: "RegisterView",
+  name: "MerchantRegisterView",
   components: {
   },
   data() {
@@ -45,15 +45,8 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getAddUser"]),
   },
   methods: {
-    ...mapActions(["ADD_USER"]),
-    registerUser() {
-      const payloadData = this.formData;
-      console.log(payloadData)
-      this.$store.dispatch("ADD_USER", {payload: payloadData})
-    }
   },
 
 

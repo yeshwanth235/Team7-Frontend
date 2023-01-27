@@ -18,6 +18,11 @@ module.exports = defineConfig({
         target: "http://10.20.5.52:9999/",
         changeOrigin: true,
         pathRewrite: {"^/api" : ""},
+      },
+      "^/api/User": {
+        target: "http://10.20.5.27:9091/",
+        changeOrigin: true,
+        pathRewrite: {"^/api" : ""},
       }
     }
   }

@@ -2,21 +2,28 @@
   <div class="cartView">
     <search-component class="searchDiv"></search-component>
     <h1>Cart</h1>
-    <!-- <div class="cartProducts"> -->
-      <div  class="cartProducts">
-        <cart-product-component v-for="product in productData" :key="product.productId"
+    <div v-if="getLoginBoolValue">
+      <!-- <div class="cartProducts"> -->
+      <div class="cartProducts">
+        <cart-product-component
+          v-for="product in productData"
+          :key="product.productId"
           :cartProducts="product"
         ></cart-product-component>
       </div>
       <div>
         <price-details-component></price-details-component>
       </div>
-    <!-- </div> -->
-    <hr />
-    <div class="button">
-      <button @click="checkOutHandler">Place Order</button>
+      <!-- </div> -->
+      <hr />
+      <div class="button">
+        <button @click="checkOutHandler">Place Order</button>
+      </div>
+      <!-- {{productData}} -->
     </div>
-    <!-- {{productData}} -->
+    <div v-else>
+      <a href="/login">Login</a>
+    </div>
   </div>
 </template>
 
@@ -40,7 +47,12 @@ export default {
     PriceDetailsComponent,
   },
   computed: {
-    ...mapGetters(["getCartProducts", "getBuyProduct"]),
+    ...mapGetters([
+      "getCartProducts",
+      "getBuyProduct",
+      "getLoginUser",
+      "getLoginBoolValue",
+    ]),
   },
   watch: {
     cartData() {
@@ -48,19 +60,26 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["CART_PRODUCTS", "BUY_PRODUCT"]),
+    ...mapActions(["CART_PRODUCTS", "BUY_PRODUCT", "RESET_CART_PRODUCTS"]),
     checkOutHandler() {
-        console.log("Order placed")
-        this.$store.dispatch("BUY_PRODUCT");
-    }
+      console.log("Order placed");
+      if (this.getLoginBoolValue) {
+        this.$store.dispatch("BUY_PRODUCT", { userId: this.getLoginUser });
+      }
+    },
   },
   created() {
-    this.$store.dispatch("CART_PROUDUCTS");
+    if (this.getLoginBoolValue) {
+      this.$store.dispatch("CART_PROUDUCTS", { userId: this.getLoginUser });
+    }
   },
   mounted() {
     // console.log(this.getCartProducts)
     this.cartData = this.getCartProducts;
     console.log("Created", this.cartData.cartItemsList);
+  },
+  destroyed() {
+    // this.$store.dispatch("RESET_CART_PRODUCTS");
   },
 };
 </script>
@@ -83,14 +102,14 @@ h1 {
 }
 
 .cartProducts {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
 }
 
 .cartLeft {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .button {

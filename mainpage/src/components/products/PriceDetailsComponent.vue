@@ -4,7 +4,9 @@
             <p>price {{itemsLength}} items {{productPrice}}</p>
             <p>Delivery charge  120</p>
             <hr>
-            <h3>Total Amount   {{productPrice+120}}</h3>
+            <h3  v-if="productPrice">Total Amount   {{productPrice+120}}</h3>
+            <h3 v-else>Total Amount   {{productPrice}}</h3>
+
             <!-- {{getCartProducts}} -->
             <!-- {{cartProducts}} -->
             <!-- {{productPrice}} -->
@@ -31,6 +33,9 @@ export default {
             return price;
         },
         itemsLength() {
+            if(this.cartProducts.length === 0 || undefined) {
+                return 0;
+            }
             return this.cartProducts.length;
         }
     },

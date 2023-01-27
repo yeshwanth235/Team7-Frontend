@@ -6,6 +6,9 @@ import ViewProduct from "../views/ViewProduct.vue";
 import CartView from "../views/CartView";
 import LoginView from "../views/LoginView.vue";
 import RegisterView from "../views/RegisterView.vue"
+import OrderHistoryView from "../views/OrderHistoryView.vue";
+import MerchantLoginView from "../views/MerchantLoginView.vue"
+import MerchantRegisterView from "../views/MerchantRegisterView.vue"
 
 Vue.use(VueRouter);
 
@@ -48,6 +51,21 @@ const routes = [
     path: "/register",
     name: "userRegister",
     component: RegisterView,
+  },
+  {
+    path: "/orderHistory",
+    name: "orderHistory",
+    component: OrderHistoryView,
+  },
+  {
+    path: "/merchantRegister",
+    name: "merchantRegister",
+    component: MerchantRegisterView
+  },
+  {
+    path: "/merchantLogin",
+    name: "merchantLogin",
+    component: MerchantLoginView
   }
 ];
 

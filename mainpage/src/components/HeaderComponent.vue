@@ -6,7 +6,9 @@
           <ul>      
             <li><a @click="mobileHandler">Mobiles</a></li>
             <li><a @click="cartHandler">cart</a></li>
-            <li><a @click="loginHandler">Login/signup</a></li>
+            <li v-if="getLoginBoolValue"><a @click="orderHistoryHandler">Orderhistory</a></li>
+            <li v-if="getLoginBoolValue"><a @click="logoutHandler">Logout</a></li>
+            <li v-else><a @click="loginHandler">Login/signup</a></li>
           </ul>
         </nav>
       </div>
@@ -14,12 +16,18 @@
 </template>
 
 <script>
+import { mapGetters, mapActions} from "vuex"
+
 export default {
   name: "HeaderComponent",
   data() {
     return {};
   },
+  computed: {
+    ...mapGetters(["getLoginBoolValue"])
+  },
   methods: {
+    ...mapActions(["RESET_LOGIN"]),
     homeHandler() {
       this.$router.push("/")
     },
@@ -31,7 +39,13 @@ export default {
     },
     loginHandler() {
       this.$router.push("/login")
-    }
+    },
+    orderHistoryHandler() {
+      this.$router.push("/orderHistory")
+    },
+    logoutHandler() {
+      this.$store.dispatch("RESET_LOGIN");
+    },
   }
 };
 </script>

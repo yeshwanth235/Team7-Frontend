@@ -49,7 +49,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getProduct", "getProductPrice"]),
+    ...mapGetters(["getProduct", "getProductPrice", "getLoginUser"]),
   },
   methods: {
     ...mapActions(["GET_PRODUCT", "PRODUCT_PRICE"]),
@@ -60,6 +60,7 @@ export default {
     },
   },
   mounted() {
+    console.log("Product id in cartProduct Component: ",this.cartProducts.productId)
     this.$store.dispatch("GET_PRODUCT", {
       id: this.cartProducts.productId,
       successData: (res) => {

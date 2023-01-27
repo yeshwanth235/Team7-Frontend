@@ -13,12 +13,24 @@
 <script>
 import HeaderComponent from "@/components/HeaderComponent.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
+import {mapActions, mapGetters} from "vuex"
+
 
 export default {
   components: {
     HeaderComponent,
     FooterComponent,
   },
+  computed: {
+    ...mapGetters(["getLoginBoolValue"])
+  },
+  methods: {
+    ...mapActions(["RESET_LOGIN", "RESET_CART_PRODUCTS"])
+  },
+  destroyed() {
+    // this.$store.dispatch("RESET_LOGIN");
+    // this.$store.dispatch("RESET_CART_PRODUCTS");
+  }
 };
 </script>
 <style></style>

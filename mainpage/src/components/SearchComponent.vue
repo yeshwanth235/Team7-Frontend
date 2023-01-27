@@ -1,6 +1,6 @@
 <template>
 <div class="searchDiv">
-    <div ><input type="text" placeholder="Search mobiles"/> <button><i class="icon-search"></i></button></div>
+    <div ><input type="text" placeholder="Search mobiles" v-model="content"/> <button><i class="icon-search"></i></button></div>
     
     <p>Something place where all mobiles are avaliable</p>
 </div>
@@ -11,6 +11,21 @@
 <script>
 export default {
     name:"SearchComponent",
+    emits: ["alter-hide"],
+    data() {
+        return {
+            content: "",
+        };
+    },
+    watch: {
+        content(newValue) {
+            if(newValue.length < 2) {
+                this.$emit("alter-hide", false, newValue);
+            }else {
+                this.$emit("alter-hide", true, newValue);
+            }
+        }
+    }
 }
 </script>
 

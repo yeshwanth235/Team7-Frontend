@@ -1,75 +1,77 @@
 <template>
-  <div class="registerView">
-    <div class="registerViewChild">
-      <div class="registerLeft">
-        <h1>Register</h1>
+  <div class="loginView">
+    <div class="loginViewChild">
+      <div class="loginLeft">
+        <h1>Merchant Login</h1>
         <p>
           Welcome <br />
           to <br />
           something
         </p>
       </div>
-      <div class="registerRight">
-        <div class="registerChild">
-          <form @submit.prevent="registerUser">
-            <label>Name</label>
-            <input v-model="formData.userName" type="text">
-
+      <div class="loginRight">
+        <div class="rightChild">
+          <form @submit.prevent="loginHandler">
             <label>Email</label>
-            <input v-model="formData.userEmailId" type="text">
-            
+            <input type="text" v-model="formData.userEmailId">
             <label>Password</label>
-            <input v-model="formData.userPassword" type="password">
-            <button>Register</button> <br />
+            <input type="password" v-model="formData.userPassword">
+            <button>Login</button> <br />
+            <a @click="registerHandler">New to something? create an account</a>
           </form>
         </div>
       </div>
+      {{getLoginBoolValue}}
     </div>
   </div>
 </template>
 
 <script>
-import {mapActions,  mapGetters} from "vuex"
+// import {mapActions,  mapGetters} from "vuex"
 
 export default {
-  name: "RegisterView",
+  name: "MerchantLoginView",
   components: {
   },
   data() {
-    return{
+    return {
       formData: {
         userEmailId: "",
-        userName: "",
-        userPassword: "",
+        userPassword: ""
       }
     };
   },
   computed: {
-    ...mapGetters(["getAddUser"]),
+    //   ...mapGetters(["getLoginUser", "getLoginBoolValue"]),
   },
   methods: {
-    ...mapActions(["ADD_USER"]),
-    registerUser() {
-      const payloadData = this.formData;
-      console.log(payloadData)
-      this.$store.dispatch("ADD_USER", {payload: payloadData})
-    }
+    // ...mapActions(["LOGIN_USER", "RESET_LOGIN"]),
+    registerHandler() {
+      this.$router.push("/merchantRegister");
+    },
   },
-
-
+  created() {
+    
+  },
+  mounted() {
+    // if(this.getLoginBoolValue) {
+    //     this.$router.push("/");
+    //   }
+  },
+  destroyed() {
+    // this.$store.dispatch("RESET_LOGIN");
+  }
 };
 </script>
 
 <style scoped>
-
-
 input {
   width: 240px;
   height: 30px;
   border-radius: 9px;
 }
 
-.registerView {
+.loginView {
   display: flex;
   justify-content: center;
   /* border: 1px solid black; */
@@ -81,34 +83,34 @@ h1 {
   margin-bottom: 30px;
 }
 
-.registerViewChild {
+.loginViewChild {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   /* margin: 50px 350px; */
   height: 400px;
   width: 800px;
-  border-radius: 13px;
+  border-radius: 16px;
   /* transition: background-color 0.6s ease-in-out; */
   transition: box-shadow 0.6s ease-in-out;
   /* border: 1px solid black; */
 }
 
-.registerViewChild:hover {
+.loginViewChild:hover {
   /* background: rgba(30, 110, 230, 0.3); */
   /* box-shadow: inset 0 0 10px #1e6ee6; */
-  /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; */
   box-shadow: rgba(30, 110, 230, 0.2) 0px 4px 12px;
+
 }
 
-.registerLeft {
+.loginLeft {
   margin: 0 30px;
   text-align: center;
   width: 400px;
   /* border: 1px solid black; */
 }
 
-.registerRight {
+.loginRight {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -138,6 +140,7 @@ button {
 }
 
 a {
+  cursor: pointer;
   margin-top: 16px;
   font-size: 16px;
   text-decoration: none;

@@ -25,6 +25,7 @@ export default {
             commit('setAllProducts', response.data)
         }, 
         GET_PRODUCT: async({commit}, {id, successData}) => {
+            // debugger;
             const response = await axios.get("/api/Products/findoneProduct/"+id);
             if(response.data) {
                 successData(response.data)

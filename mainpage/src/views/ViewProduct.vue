@@ -14,7 +14,7 @@
       <div class="viewTwo">
         <h2>{{ getProduct.productName }}</h2>
         <ul class="merchant">
-          <li v-for="(merchant, i) in sortedMerchants" :key="merchant.merchantId">
+          <li v-for="(merchant, i) in getProductMerchants" :key="merchant.merchantId">
             <span>price: </span>
             <p id="price">{{`₹`+merchant.productPrice + ` `}}</p>
             <span>{{`merchant`+(i+1)+` `}}</span>
@@ -55,10 +55,11 @@ export default {
     return {
       Data: [],
       merchant: {},
+      // user: "",
     };
   },
   computed: {
-    ...mapGetters(["getProduct", "getProductMerchants", "getAddToCart"]),
+    ...mapGetters(["getProduct", "getProductMerchants", "getAddToCart", "getLoginUser"]),
     sortedMerchants() {
       let sortedData = [];
       sortedData = this.sortedArray(this.getProductMerchants)
@@ -77,7 +78,10 @@ export default {
       // this.$route.push("/carts")
       // console.log("merchant in handler", this.merchant)
       // debugger;
+      // this.user = this.getLoginUser;
+      console.log(this.getLoginUser)
       this.$store.dispatch("ADD_TO_CART", {
+        userId: this.getLoginUser,
         merchantId: this.merchant.merchantId,
         productId: this.$route.params.id,
         productQuantity: 1,
