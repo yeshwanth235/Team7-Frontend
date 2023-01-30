@@ -1,6 +1,8 @@
 <template>
   <div id="app">
     <header-component></header-component>
+    <!-- <toast-comp></toast-comp> -->
+    <!-- <firebase-component></firebase-component> -->
     <nav>
       <router-link to="/"></router-link> 
       <router-link to="/products"></router-link>
@@ -13,24 +15,23 @@
 <script>
 import HeaderComponent from "@/components/HeaderComponent.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
-import {mapActions, mapGetters} from "vuex"
+// import ToastComp from "@/components/ToastComp.vue";
+// import FirebaseComponent from "@/components/FirebaseComponent.vue";
+import { mapGetters} from "vuex"
 
 
 export default {
   components: {
     HeaderComponent,
     FooterComponent,
+    // FirebaseComponent
+    // ToastComp,
   },
   computed: {
     ...mapGetters(["getLoginBoolValue"])
   },
   methods: {
-    ...mapActions(["RESET_LOGIN", "RESET_CART_PRODUCTS"])
   },
-  destroyed() {
-    // this.$store.dispatch("RESET_LOGIN");
-    // this.$store.dispatch("RESET_CART_PRODUCTS");
-  }
 };
 </script>
 <style></style>

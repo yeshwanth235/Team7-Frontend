@@ -2,9 +2,9 @@
     <div class="cartPriceDetails">
             <h2>Price Details</h2>
             <p>price {{itemsLength}} items {{productPrice}}</p>
-            <p>Delivery charge  120</p>
+            <!-- <p>Delivery charge  120</p> -->
             <hr>
-            <h3  v-if="productPrice">Total Amount   {{productPrice+120}}</h3>
+            <h3  v-if="productPrice">Total Amount   {{productPrice}}</h3>
             <h3 v-else>Total Amount   {{productPrice}}</h3>
 
             <!-- {{getCartProducts}} -->
@@ -28,15 +28,15 @@ export default {
         productPrice() {
             let price =0;
             for(let i=0; i<this.itemsLength; i++) {
-                price = price + this.cartProducts[i].productPrice;
+                price = price + this.cartProducts[i].productPrice * this.cartProducts[i].productQuantity;
             }
             return price;
         },
         itemsLength() {
-            if(this.cartProducts.length === 0 || undefined) {
+            if(this.cartProducts?.length === 0 || undefined) {
                 return 0;
             }
-            return this.cartProducts.length;
+            return this.cartProducts?.length;
         }
     },
     methods: {

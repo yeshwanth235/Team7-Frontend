@@ -9,6 +9,9 @@
           <i class="fa fa-shopping-cart" aria-hidden="true"></i>
           <a  @click="addToCartHandler">Add To Cart</a>
         </button>
+        <div v-if="show" class="toast-container">
+      <div class="toast-message">{{ message }}</div>
+    </div>
         <!-- <button @click="buyHandler"><i class="icon-inr"></i>Buy Now</button> -->
       </div>
       <div class="viewTwo">
@@ -48,6 +51,12 @@ import SearchComponent from "@/components/SearchComponent.vue";
 import { mapActions, mapGetters } from "vuex";
 export default {
   name: "ViewProductComponent",
+  props: {
+    message: {
+      type: String,
+      default: "clicked",
+    },
+  },
   components: {
     SearchComponent,
   },
@@ -56,6 +65,7 @@ export default {
       Data: [],
       merchant: {},
       // user: "",
+      show: false,
     };
   },
   computed: {
@@ -86,6 +96,10 @@ export default {
         productId: this.$route.params.id,
         productQuantity: 1,
         productPrice: this.merchant.productPrice });
+        this.show = true;
+        setTimeout(() => {
+          this.show = false;
+        } , 1000);
     },
     // buyHandler() {
     //   this.$store.dispatch("BUY_PRODUCT")

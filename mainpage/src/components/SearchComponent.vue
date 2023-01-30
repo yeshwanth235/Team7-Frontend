@@ -1,6 +1,6 @@
 <template>
 <div class="searchDiv">
-    <div ><input type="text" placeholder="Search mobiles" v-model="content"/> <button><i class="icon-search"></i></button></div>
+    <div ><input type="text" placeholder="Search mobiles" v-model="content"/> <button @click="searchHandler"><i class="icon-search"></i></button></div>
     
     <p>Something place where all mobiles are avaliable</p>
 </div>
@@ -9,22 +9,33 @@
 
 
 <script>
+import {mapActions,  mapGetters} from "vuex"
+
 export default {
+
     name:"SearchComponent",
-    emits: ["alter-hide"],
     data() {
         return {
             content: "",
+            searchData: "",
         };
     },
+    computed: {
+        ...mapGetters(["getSearchProduct"])
+    },
     watch: {
-        content(newValue) {
-            if(newValue.length < 2) {
-                this.$emit("alter-hide", false, newValue);
-            }else {
-                this.$emit("alter-hide", true, newValue);
-            }
+        content() {
+            this.searchData = this.content;
         }
+    },
+    methods: {
+        ...mapActions(["GET_SEARCH_PRODUCT"]),
+        searchHandler() {
+            console.log("search component ",this.searchData)
+            this.$store.dispatch("GET_SEARCH_PRODUCT", {searchTerm: this.searchData});
+        }
+    },
+    created() {
     }
 }
 </script>

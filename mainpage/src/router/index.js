@@ -9,6 +9,7 @@ import RegisterView from "../views/RegisterView.vue"
 import OrderHistoryView from "../views/OrderHistoryView.vue";
 import MerchantLoginView from "../views/MerchantLoginView.vue"
 import MerchantRegisterView from "../views/MerchantRegisterView.vue"
+import MerchantProductRegistration from "../views/MerchantProductRegistration.vue";
 
 Vue.use(VueRouter);
 
@@ -66,6 +67,11 @@ const routes = [
     path: "/merchantLogin",
     name: "merchantLogin",
     component: MerchantLoginView
+  },
+  {
+    path: "/productRegistration",
+    name: "merchantProductRegistration",
+    component: MerchantProductRegistration,
   }
 ];
 

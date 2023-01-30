@@ -7,6 +7,7 @@ import products from './modules/products'
 import merchant from './modules/merchant'
 import user from './modules/user'
 import cart from './modules/cart'
+import merchantProductsDisplay from './modules/merchantProductsDisplay'
 
 export default new Vuex.Store({
   modules: {
@@ -14,5 +15,6 @@ export default new Vuex.Store({
     merchant,
     cart,
     user,
+    merchantProductsDisplay,
   }
 })

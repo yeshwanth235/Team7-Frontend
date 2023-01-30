@@ -49,7 +49,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch("GET_PRODUCT", {
-      id: this.orderHistory.merchantId,
+      id: this.orderHistory.productId,
       successData: (res) => {
         this.productRes = res;
       },

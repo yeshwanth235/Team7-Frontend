@@ -18,11 +18,17 @@
       <hr />
       <div class="button">
         <button @click="checkOutHandler">Place Order</button>
+        <div v-if="show" class="toast-container">
+      <div class="toast-message">{{ message }}</div>
+    </div>
       </div>
       <!-- {{productData}} -->
     </div>
     <div v-else>
-      <a href="/login">Login</a>
+      <div class="cartviewLogin">
+        <p>User Login Needed</p>
+        <a @click="loginHandler" id="login">Login</a>
+      </div>
     </div>
   </div>
 </template>
@@ -35,10 +41,17 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "CartView",
+  props: {
+    message: {
+      type: String,
+      default: "order placed",
+    },
+  },
   data() {
     return {
       cartData: [],
       productData: [],
+      show: false
     };
   },
   components: {
@@ -63,10 +76,21 @@ export default {
     ...mapActions(["CART_PRODUCTS", "BUY_PRODUCT", "RESET_CART_PRODUCTS"]),
     checkOutHandler() {
       console.log("Order placed");
-      if (this.getLoginBoolValue) {
+      console.log(this.cartItemsList.length())
+      if (this.getLoginBoolValue && this.cartProducts?.length!==0) {
         this.$store.dispatch("BUY_PRODUCT", { userId: this.getLoginUser });
       }
+      else {
+        window.alert("cart is empty")
+      }
+      this.show = true;
+      setTimeout(() => {
+        this.show = false;
+      }, 2000);
     },
+    loginHandler() {
+      this.$router.push("/login")
+    }
   },
   created() {
     if (this.getLoginBoolValue) {
@@ -87,6 +111,20 @@ export default {
 <style scoped>
 h1 {
   color: #1e6ee6;
+}
+
+#login {
+  cursor: pointer;
+}
+
+.cartviewLogin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 200px;
+  width: 100%;
+  font-size: 28px;
 }
 
 .searchDiv {

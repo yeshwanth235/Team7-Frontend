@@ -1,17 +1,28 @@
 <template>
   <div class="cart">
     <div class="cartProduct">
-      <img :src="productData.productImg" alt="Google Pixel 6a " />
+      <img :src="productData.productImg" alt="productData.productName" />
       <div class="productDetails">
         <ul>
           <li>
             <h3>{{ productData.productName }}</h3>
           </li>
-          <li>{{cartProducts.merchantId}}</li>
+          <li>{{ cartProducts.merchantId }}</li>
           <li id="price">₹{{ cartProducts.productPrice }}</li>
+          <li>
+            <!-- cartProducts.productQuantity -->
+            <button @click="decrementQuantity">-</button> Qty: {{productQuantity}}<button
+              @click="incrementQuantity"
+            >
+              +
+            </button>
+          </li>
         </ul>
         <div class="cartButton">
-          <button>Remove</button>
+          <button @click="removeProduct">Remove</button>
+          <div v-if="show" class="toast-container">
+      <div class="toast-message">{{ message }}</div>
+    </div>
         </div>
       </div>
     </div>
@@ -23,7 +34,7 @@
             <p>Total Amount   45120</p> -->
     <!-- </div> -->
     <!-- {{cartProducts.productId}} -->
-    
+
     <!-- {{getProduct}} -->
     <!-- {{merchantData}} -->
     <!-- {{productData}} -->
@@ -40,27 +51,75 @@ export default {
       type: Object,
       require: true,
     },
+    message: {
+      type: String,
+      default: "Removed from cart",
+    },
   },
   data() {
     return {
       product: [],
       productData: [],
       merchantData: [],
+      productQuantityRes: 0,
+      productQuantity: this.cartProducts.productQuantity,
+      show: false,
     };
   },
   computed: {
-    ...mapGetters(["getProduct", "getProductPrice", "getLoginUser"]),
+    ...mapGetters(["getProduct", "getProductPrice", "getLoginUser","getDrementProduct","getIncrementProduct","getRemoveProduct"]),
   },
   methods: {
-    ...mapActions(["GET_PRODUCT", "PRODUCT_PRICE"]),
+    ...mapActions(["GET_PRODUCT", "PRODUCT_PRICE","DECREMENT_PRODUCT","INCREMENT_PRODUCT","REMOVE_PRODUCT"]),
+
+    incrementQuantity() {
+      console.log('incrementQuantity')
+      this.$store.dispatch("INCREMENT_PRODUCT", {
+        userId: this.getLoginUser,
+        productId: this.cartProducts.productId,
+        merchantId: this.cartProducts.merchantId,
+        successData: (res) => {
+          this.productQuantity = res;
+        }})
+        console.log(this.productQuantity)
+    },
+
+    decrementQuantity() {
+      console.log('decrementQuantity')
+      this.$store.dispatch("DECREMENT_PRODUCT", {
+        userId: this.getLoginUser,
+        productId: this.cartProducts.productId,
+        merchantId: this.cartProducts.merchantId, 
+        successData: (res) => {
+          this.productQuantity =res;
+        }})
+    },
+    removeProduct() {
+      console.log("inside remove product")
+      this.$store.dispatch("REMOVE_PRODUCT", {
+        userId: this.getLoginUser,
+        productId: this.cartProducts.productId,
+        merchantId: this.cartProducts.merchantId,
+      })
+      this.show = true;
+      setTimeout(() => {
+        this.show = false;
+      }, 2000);
+    },
   },
   watch: {
     product() {
       this.productData = this.product;
     },
+    productQuantityRes() {
+      this.productQuantity = this.productQuantityRes;
+    }
   },
   mounted() {
-    console.log("Product id in cartProduct Component: ",this.cartProducts.productId)
+    console.log(
+      "Product id in cartProduct Component: ",
+      this.cartProducts.productId
+    );
     this.$store.dispatch("GET_PRODUCT", {
       id: this.cartProducts.productId,
       successData: (res) => {

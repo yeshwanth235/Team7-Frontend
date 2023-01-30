@@ -5,11 +5,17 @@ export default {
         addToCart: [],
         buyProduct: [],
         cartProducts: [],
+        decrementProduct: [],
+        incrementProduct: [],
+        removeProduct: [],
     },
     getters: {
         getAddToCart(state) {return state.addProduct},
         getBuyProduct(state) {return state.buyProduct},
         getCartProducts(state) {return state.cartProducts},
+        getIncrementProduct(state) {return state.incrementProduct},
+        getDecrementProduct(state) {return state.decrementProduct},
+        getRempveProduct(state) {return state.removeProduct},
     },  
     mutations: {
         setAddToCart(state, value) {
@@ -23,7 +29,16 @@ export default {
         },
         resetCartProducts(state) {
             state.cartProducts = [];
-        }
+        },
+        setIncrementProduct(state) {
+            state.incrementProduct = [];
+        },
+        setDecrementProduct(state) {
+            state.decrementProduct = [];
+        },
+        setRemoveProduct(state) {
+            state.removeProduct = [];
+        },
     },
     actions: {
         async ADD_TO_CART({commit}, {userId, merchantId, productId, productPrice}) {
@@ -52,8 +67,29 @@ export default {
             console.log("User Cart Products: ", response.data.cartItemsList)
             commit('setCartProducts', response.data);
         },
+        async INCREMENT_PRODUCT({commit}, {userId,productId,merchantId, successData}) {
+            const user=encodeURIComponent(userId);
+            const response=await axios.post("api/cart/incrementProductCount/"+user+"/"+productId+"/"+merchantId);
+            successData(response.data)
+            console.log("Increment Product",response)
+            commit("setDecrementProduct",response)
+        },
+        async DECREMENT_PRODUCT({commit}, {userId,productId,merchantId, successData}) {
+            const user=encodeURIComponent(userId);
+            const response=await axios.post("api/cart/decrementProductCount/"+user+"/"+productId+"/"+merchantId);
+            successData(response.data)
+            console.log("Decrement Product",response)
+            commit("setDecrementProduct",response)
+        },
+
+        async REMOVE_PRODUCT({commit}, {userId,productId,merchantId}) {
+            const user=encodeURIComponent(userId);
+            const response=await axios.post("api/cart/removeProductFromCart/"+user+"/"+productId+"/"+merchantId);
+            commit("setRemoveProduct",response)
+        },
+        
         RESET_CART_PRODUCTS({commit}) {
             commit('resetCartProducts')
-        }
+        },   
     }
 }

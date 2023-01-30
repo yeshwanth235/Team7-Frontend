@@ -13,13 +13,13 @@
         <div class="registerChild">
           <form @submit.prevent="registerUser">
             <label>Name</label>
-            <input v-model="formData.userName" type="text">
+            <input v-model="formData.username" type="text">
 
             <label>Email</label>
-            <input v-model="formData.userEmailId" type="text">
-            
+            <input v-model="formData.email" type="text">
+          
             <label>Password</label>
-            <input v-model="formData.userPassword" type="password">
+            <input v-model="formData.password" type="password">
             <button>Register</button> <br />
           </form>
         </div>
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
 // import {mapActions,  mapGetters} from "vuex"
 
 export default {
@@ -38,15 +39,22 @@ export default {
   data() {
     return{
       formData: {
-        userEmailId: "",
-        userName: "",
-        userPassword: "",
+        email: "",
+        password: "",
+        username: "",
       }
     };
   },
   computed: {
+    ...mapGetters(["getAddMerchant"]),
   },
   methods: {
+    ...mapActions(["ADD_MERCHANT"]),
+    registerUser() {
+      const payloadData = this.formData;
+      console.log(payloadData)
+      this.$store.dispatch("ADD_MERCHANT", {payload: payloadData})
+    }
   },
 
 

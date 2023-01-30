@@ -44,14 +44,14 @@ export default {
             console.log("Add User: ",response)
             commit('setAddUser', response);
         },
-        async LOGIN_USER({commit}, {payload}) {
+        async LOGIN_USER({commit}, {payload, successCall}) {
             const response = await axios.post("/api/User/login", payload);
-
             console.log(response.data);
             console.log(response.status);
             commit('setLoginUser', response.data)
             if(response.status === 200) {
                 commit('setLoginBoolValue', true);
+                successCall();
                 // this.$router.push("/")
             }
         },

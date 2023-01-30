@@ -5,10 +5,12 @@ export default {
         AllProducts: [],
         product: 0,
         isLogged: true,
+        searchProduct: [],
     },
     getters: {
         getAllProducts: (state) => {return state.AllProducts},
         getProduct: (state) => {return state.product},
+        getSearchProduct: (state) => {return state.searchProduct}
     },
     mutations: {
         setAllProducts(state, value) {
@@ -16,10 +18,14 @@ export default {
         },
         setProduct(state, value) {
             state.product = value
+        },
+        setSearchProduct(state, value) {
+            state.searchProduct = value
         }
     },
     actions: {
         GET_ALL_PRODUCTS:  async ({commit}) => {
+            // debugger;
             const response = await axios.get("/api/Products/getAllProducts");
             console.log("Get All Products",response.data);
             commit('setAllProducts', response.data)
@@ -32,6 +38,12 @@ export default {
             }
             console.log("Product", response.data)
             commit('setProduct', response.data)
+        },
+        GET_SEARCH_PRODUCT: async({commit}, {searchTerm}) => {
+            console.log("searchTerm", searchTerm)
+            const response = await axios.get("/api/Products/searchProducts/"+searchTerm);
+            console.log(response)
+            commit('setSearchProduct', response.data)
         }
     },
 }

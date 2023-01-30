@@ -8,6 +8,7 @@
           to <br />
           something
         </p>
+        <a @click="loginHandler">User Portal</a>
       </div>
       <div class="loginRight">
         <div class="rightChild">
@@ -21,12 +22,13 @@
           </form>
         </div>
       </div>
-      {{getLoginBoolValue}}
+      <!-- {{getLoginBoolValue}} -->
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
 // import {mapActions,  mapGetters} from "vuex"
 
 export default {
@@ -42,12 +44,22 @@ export default {
     };
   },
   computed: {
-    //   ...mapGetters(["getLoginUser", "getLoginBoolValue"]),
+      ...mapGetters(["getLoginMerchant", "getMerchantLoginBool"]),
   },
   methods: {
-    // ...mapActions(["LOGIN_USER", "RESET_LOGIN"]),
+    ...mapActions(["LOGIN_MERCHANT"]),
     registerHandler() {
       this.$router.push("/merchantRegister");
+    },
+    loginHandler() {
+      const payloadData = this.formData;
+      console.log(payloadData);
+      this.$store.dispatch("LOGIN_MERCHANT", {payload: payloadData, successCall: () => {
+        if(this.getMerchantLoginBool) {
+        this.$router.push("/productRegistration");
+      }
+      }});
+      console.log(this.getMerchantLoginBool)
     },
   },
   created() {

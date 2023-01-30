@@ -23,7 +23,7 @@
           </form>
         </div>
       </div>
-      {{getLoginBoolValue}}
+      <!-- {{getLoginBoolValue}} -->
     </div>
   </div>
 </template>
@@ -54,11 +54,13 @@ export default {
     loginHandler() {
       const payloadData = this.formData;
       console.log(payloadData);
-      this.$store.dispatch("LOGIN_USER", {payload: payloadData});
+      this.$store.dispatch("LOGIN_USER", {payload: payloadData, successCall: () => {
+        if(this.getLoginBoolValue) {
+        this.$router.push("/");
+      }
+      }});
       console.log(this.getLoginBoolValue)
-      // if(this.getLoginBoolValue) {
-      //   this.$router.push("/");
-      // }
+      
     },
     merchantHandler() {
       this.$router.push("/merchantLogin")
